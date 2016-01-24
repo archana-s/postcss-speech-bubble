@@ -41,8 +41,7 @@ You can define these bubbles by making them hollow and providing the border colo
 
 ## Examples
 
-* Solid bubble (No border)
-
+### Solid bubble (No border)
 ![solid bubble](https://lh3.googleusercontent.com/-AeIItjhWS2c/VqRriS6DYoI/AAAAAAAAOzw/JSMxzDnBag4/s338-Ic42/Screen%252520Shot%2525202016-01-23%252520at%25252010.07.57%252520PM.png)
 
     .bubble {
@@ -52,8 +51,7 @@ You can define these bubbles by making them hollow and providing the border colo
       height: 80px;
     }
 
-* Hollow bubble
-
+### Hollow bubble
 ![hollow bubble](https://lh3.googleusercontent.com/-kvMLnldOwk4/VqRrhyoT5xI/AAAAAAAAOzs/nElrVn57kZE/s386-Ic42/Screen%252520Shot%2525202016-01-23%252520at%25252010.09.20%252520PM.png)
 
     .bubble {
@@ -63,8 +61,7 @@ You can define these bubbles by making them hollow and providing the border colo
       height: 100px;
     }
 
-* Hollow bubble with a background
-
+### Hollow bubble with a background
 ![hollow bubble with background](https://lh3.googleusercontent.com/-_WS8rmal0Vs/VqRrhbE9lJI/AAAAAAAAOzk/Z2eg19MSDzA/s282-Ic42/Screen%252520Shot%2525202016-01-23%252520at%25252010.12.48%252520PM.png)
 
     .bubble {
