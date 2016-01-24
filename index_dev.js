@@ -125,6 +125,9 @@ const addBeaker = (bubble, beaker, rule) => {
   const afterColor = bubble.backColor ? bubble.backColor : 'white';
   const transparentTriangle = beaker.size + ' solid transparent';
   const solidTriangle = beaker.size + ' solid ' + bubble.color;
+  let border = parseInt(bubble.borderSize.split('px')[0], 10) || 1;
+  border = border > 1 ? border + 1 : 1;
+
 
   // First add solid colored beaker
   switch(beaker.direction.toLowerCase()) {
@@ -134,8 +137,8 @@ const addBeaker = (bubble, beaker, rule) => {
       commonRules.push('border-right: ' + transparentTriangle);
       beforeRule.append('border-bottom: ' + solidTriangle);
       if (afterRule) {
-        afterRule.append('top: -' + (parseInt(beaker.size.split('px')[0], 10) - 1) + 'px');
-        afterRule.append('border-bottom: ' + beaker.size + ' solid ' + bubble.backColor);
+        afterRule.append('top: -' + (parseInt(beaker.size.split('px')[0], 10) - border) + 'px');
+        afterRule.append('border-bottom: ' + beaker.size + ' solid ' + afterColor);
       }
       break;
     case 'bottom':
@@ -144,8 +147,8 @@ const addBeaker = (bubble, beaker, rule) => {
       commonRules.push('border-right: ' + transparentTriangle);
       beforeRule.append('border-top: ' + solidTriangle);
       if (afterRule) {
-        afterRule.append('bottom: -' + (parseInt(beaker.size.split('px')[0], 10) - 1) + 'px');
-        afterRule.append('border-top: ' + beaker.size + ' solid ' + bubble.backColor);
+        afterRule.append('bottom: -' + (parseInt(beaker.size.split('px')[0], 10) - border) + 'px');
+        afterRule.append('border-top: ' + beaker.size + ' solid ' + afterColor);
       }
       break;
     case 'left':
@@ -154,8 +157,8 @@ const addBeaker = (bubble, beaker, rule) => {
       commonRules.push('border-bottom: ' + transparentTriangle);
       beforeRule.append('border-right: ' + solidTriangle);
       if (afterRule) {
-        afterRule.append('left: -' + (parseInt(beaker.size.split('px')[0], 10) - 1) + 'px');
-        afterRule.append('border-right: ' + beaker.size + ' solid ' + bubble.backColor);
+        afterRule.append('left: -' + (parseInt(beaker.size.split('px')[0], 10) - border) + 'px');
+        afterRule.append('border-right: ' + beaker.size + ' solid ' + afterColor);
       }
       break;
     case 'right':
@@ -164,8 +167,8 @@ const addBeaker = (bubble, beaker, rule) => {
       commonRules.push('border-bottom: ' + transparentTriangle);
       beforeRule.append('border-left: ' + solidTriangle);
       if (afterRule) {
-        afterRule.append('right: -' + (parseInt(beaker.size.split('px')[0], 10) - 1) + 'px');
-        afterRule.append('border-left: ' + beaker.size + ' solid ' + bubble.backColor);
+        afterRule.append('right: -' + (parseInt(beaker.size.split('px')[0], 10) - border) + 'px');
+        afterRule.append('border-left: ' + beaker.size + ' solid ' + afterColor);
       }
       break;
     default:
