@@ -24,6 +24,7 @@
     "eslint": "^1.10.3"
   },
   "scripts": {
-    "test": "ava"
+    "test": "ava",
+    "babelify": "babel --presets es2015 index_dev.js --out-file index.js"
   }
 }

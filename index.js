@@ -1,60 +1,89 @@
+'use strict';
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 var postcss = require('postcss');
 
-var getBeakerDeclarationValues = function(rule) {
+var getBeakerDeclarationValues = function getBeakerDeclarationValues(rule) {
   var bubbleBeakerValues = [];
-  var positionSpecified = null;
+  var position = null;
   var bubbleBackColor = null;
 
-  for (var i=0; i < rule.nodes.length; i++) {
-    switch (rule.nodes[i].prop.trim().toLowerCase()) {
-      case 'bubble-beaker':
-        bubbleBeakerValues = rule.nodes[i].value.split(' ');
-        rule.removeChild(rule.nodes[i]);
-        break;
-      case 'position':
-        positionSpecified = rule.nodes[i].value;
-        break;
-      case 'bubble-background':
-        bubbleBackColor = rule.nodes[i].value;
-        rule.removeChild(rule.nodes[i]);
-        break;
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    for (var _iterator = rule.nodes[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var node = _step.value;
+
+      switch (node.prop.trim().toLowerCase()) {
+        case 'bubble-beaker':
+          bubbleBeakerValues = node.value.split(' ');
+          rule.removeChild(node);
+          break;
+        case 'position':
+          position = node.value;
+          break;
+        case 'bubble-background':
+          bubbleBackColor = node.value;
+          rule.removeChild(node);
+          break;
+      }
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
     }
   }
+
   return {
     bubbleBeakerValues: bubbleBeakerValues,
-    position: positionSpecified,
+    position: position,
     bubbleBackColor: bubbleBackColor
   };
 };
 
-var extractBubbleAndBeakerSpecs = function(bubbleValues, beakerValues) {
+var extractBubbleAndBeakerSpecs = function extractBubbleAndBeakerSpecs(bubbleValues, beakerValues) {
   var bubble = {};
   var beaker = {};
 
   if (bubbleValues && bubbleValues.length !== 4) {
-    throw 'Bubble is not correctly specified. Please check the docs and provide the right values.';
+    throw 'Bubble is not correctly specified. Please check the docs\n    and provide the right values.';
   }
 
   if (beakerValues && beakerValues.length !== 2) {
-    throw 'Bubble beaker is not specified correctly. Please check the docs and provide the right values.';
+    throw 'Bubble beaker is not specified correctly. Please check the docs and\n    provide the right values.';
   }
 
-  bubble.borderSize  = bubbleValues[0];
-  bubble.borderRadius = bubbleValues[1];
-  bubble.type = bubbleValues[2];
-  bubble.color = bubbleValues[3];
+  var _bubbleValues = _slicedToArray(bubbleValues, 4);
+
+  bubble.borderSize = _bubbleValues[0];
+  bubble.borderRadius = _bubbleValues[1];
+  bubble.type = _bubbleValues[2];
+  bubble.color = _bubbleValues[3];
 
   if (beakerValues[1].indexOf('-') >= 0) {
-    beaker.direction = beakerValues ? (beakerValues[1].split('-'))[0] : null;
-    beaker.position = beakerValues ? (beakerValues[1].split('-'))[1] : null;
+    beaker.direction = beakerValues ? beakerValues[1].split('-')[0] : null;
+    beaker.position = beakerValues ? beakerValues[1].split('-')[1] : null;
   } else {
-    throw 'Beaker is not provided correctly. Please check the docs and provide the right values.';
+    throw 'Beaker is not provided correctly. Please check the docs and\n    provide the right values.';
   }
 
-  if ((beaker.direction !== 'top' && beaker.direction !== 'bottom' && beaker.direction !== 'left' && beaker.direction !== 'right') ||
-    (beaker.position !== 'top' && beaker.position !== 'right' && beaker.position !== 'left' && beaker.position !== 'bottom' &&
-    beaker.position !== 'center' && beaker.position !== 'middle')) {
-    throw 'Beaker is not provided correctly. Please specify bubble-beaker: <beaker size> <beaker position>. Beaker position should be top-left, top-right, bottom-center, left-middle, etc.';
+  var possibleDirections = ['top', 'bottom', 'left', 'right'];
+  var possiblePositions = ['top', 'bottom', 'left', 'right', 'center', 'middle'];
+
+  if (possibleDirections.indexOf(beaker.direction) < 0 || possiblePositions.indexOf(beaker.position) < 0) {
+    throw 'Beaker is not provided correctly. Please specify bubble-beaker:\n      <beaker size> <beaker position>. Beaker position should be top-left,\n      top-right, bottom-center, left-middle, etc.';
   }
 
   beaker.size = beakerValues ? beakerValues[0] : null;
@@ -69,7 +98,7 @@ var extractBubbleAndBeakerSpecs = function(bubbleValues, beakerValues) {
   };
 };
 
-var addBubble = function(bubble, beaker, position, rule) {
+var addBubble = function addBubble(bubble, beaker, position, rule) {
   // Add border size for the bubble
   if (parseInt(bubble.borderSize, 10) > 0) {
     rule.append('border: ' + bubble.borderSize + ' solid ' + bubble.color);
@@ -89,8 +118,7 @@ var addBubble = function(bubble, beaker, position, rule) {
   }
 
   // Adjust the positioning of the bubble based on beaker
-  if (beaker.size && beaker.direction
-    && parseInt(beaker.size, 10) > 0) {
+  if (beaker.size && beaker.direction && parseInt(beaker.size, 10) > 0) {
     rule.append('margin-' + beaker.direction + ':' + beaker.size);
   }
 
@@ -102,28 +130,25 @@ var addBubble = function(bubble, beaker, position, rule) {
   }
 };
 
-var addBeaker = function(bubble, beaker, rule) {
+var addBeaker = function addBeaker(bubble, beaker, rule) {
   // Add the beaker now
-  var beforeRule = postcss.rule({selector: rule.selector + ':before'});
+  var beforeRule = postcss.rule({ selector: rule.selector + ':before' });
   var afterRule = null;
 
   if (bubble.type === 'hollow') {
     // We need to add another beaker the same background color as the bubble
     // to create a caret look instead of triangle.
-    afterRule = postcss.rule({selector: rule.selector + ':after'});
+    afterRule = postcss.rule({ selector: rule.selector + ':after' });
   }
 
-  var commonRules = [
-    'content: \'\'',
-    'position: absolute'
-  ];
+  var commonRules = ['content: \'\'', 'position: absolute'];
 
   var afterColor = bubble.backColor ? bubble.backColor : 'white';
   var transparentTriangle = beaker.size + ' solid transparent';
   var solidTriangle = beaker.size + ' solid ' + bubble.color;
 
   // First add solid colored beaker
-  switch(beaker.direction.toLowerCase()) {
+  switch (beaker.direction.toLowerCase()) {
     case 'top':
       beforeRule.append('top: -' + beaker.size);
       commonRules.push('border-left: ' + transparentTriangle);
@@ -165,11 +190,11 @@ var addBeaker = function(bubble, beaker, rule) {
       }
       break;
     default:
-      console.log('Provide correct position for bubble-beaker. Some examples are top-right, top-center, left-middle, left-top');
+      throw 'Provide correct position for bubble-beaker. Some examples\n        are top-right, top-center, left-middle, left-top';
   }
 
   var beakerPos = parseInt(beaker.size.split('px')[0], 10) * 1.5 + 'px';
-  switch(beaker.position.toLowerCase()) {
+  switch (beaker.position.toLowerCase()) {
     case 'left':
       commonRules.push('left: ' + beakerPos);
       break;
@@ -192,9 +217,30 @@ var addBeaker = function(bubble, beaker, rule) {
       break;
   }
 
-  for (var i=0; i<commonRules.length; i++) {
-    beforeRule.append(commonRules[i]);
-    if(afterRule) afterRule.append(commonRules[i]);
+  var _iteratorNormalCompletion2 = true;
+  var _didIteratorError2 = false;
+  var _iteratorError2 = undefined;
+
+  try {
+    for (var _iterator2 = commonRules[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+      var _rule = _step2.value;
+
+      beforeRule.append(_rule);
+      if (afterRule) afterRule.append(_rule);
+    }
+  } catch (err) {
+    _didIteratorError2 = true;
+    _iteratorError2 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion2 && _iterator2.return) {
+        _iterator2.return();
+      }
+    } finally {
+      if (_didIteratorError2) {
+        throw _iteratorError2;
+      }
+    }
   }
 
   rule.parent.nodes.push(beforeRule);
@@ -202,37 +248,36 @@ var addBeaker = function(bubble, beaker, rule) {
 };
 
 module.exports = postcss.plugin('postcss-bubble', function (opts) {
-    opts = opts || {};
+  opts = opts || {};
 
-    return function (css) {
-      css.walkDecls(function (decl, i) {
-        var rule = decl.parent;
-        var value = decl.prop;
+  return function (css) {
+    css.walkDecls(function (decl, i) {
+      var rule = decl.parent;
+      var value = decl.prop;
 
-        if (decl.prop === 'bubble') {
-          // Get bubble beaker if specified
-          var bubble = {};
-          var beaker = {};
+      if (decl.prop === 'bubble') {
+        // Get bubble beaker if specified
+        var bubble = {};
+        var beaker = {};
 
-          var obj = getBeakerDeclarationValues(rule);
-          var bubbleBeakerValues = obj.bubbleBeakerValues;
-          var position = obj.position;
-          var bubbleBackColor = obj.bubbleBackColor;
+        var obj = getBeakerDeclarationValues(rule);
+        var bubbleBeakerValues = obj.bubbleBeakerValues;
+        var position = obj.position;
+        var bubbleBackColor = obj.bubbleBackColor;
 
-          // Consolidate all the values to construct
-          var bubbleValues = decl.value.split(' ');
+        // Consolidate all the values to construct
+        var bubbleValues = decl.value.split(' ');
 
-          var specs = extractBubbleAndBeakerSpecs(bubbleValues, bubbleBeakerValues);
-          bubble = specs.bubble;
-          bubble.backColor = bubbleBackColor;
-          beaker = specs.beaker;
+        var specs = extractBubbleAndBeakerSpecs(bubbleValues, bubbleBeakerValues);
+        bubble = specs.bubble;
+        bubble.backColor = bubbleBackColor;
+        beaker = specs.beaker;
 
-          addBubble(bubble, beaker, position, rule);
-          addBeaker(bubble, beaker, rule);
+        addBubble(bubble, beaker, position, rule);
+        addBeaker(bubble, beaker, rule);
 
-          rule.removeChild(decl);
-        }
-
-      });
-    };
+        rule.removeChild(decl);
+      }
+    });
+  };
 });
