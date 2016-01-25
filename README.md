@@ -39,6 +39,8 @@ bubble-background: color;
 This is necessary if you need to provide a bubble with a border and a background color.
 You can define these bubbles by making them hollow and providing the border color and providing a background color through this property.
 
+#### Important Note: Please provide width and height for these bubbles or let the content specify the width/height. The bubbles will not look right without proper width/height. 
+
 ## Examples
 
 ### Solid bubble (No border)
