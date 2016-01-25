@@ -1,0 +1,14 @@
+.bubble {
+  bubble-beaker: 10px top-grey;
+  bubble: 0 0 solid orange;
+  width: 140px;
+  height: 80px;
+}
+
+.bubble-1 {
+  bubble: 1px 10px hollow black;
+  bubble-beaker: 10px left-top;
+  width: 150px;
+  height: 100px;
+  bubble-background: orange;
+}
