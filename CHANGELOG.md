@@ -1,5 +1,5 @@
-#1.0.0 - 2016-01-24
-Releasing first version with updated readme
+#1.0.1 - 2016-01-24
+Fixed the Git user name which was incorrect before.
 
-# 0.0.9 - 2016-01-23
+# 0.0.9, 1.0.0 - 2016-01-23
 First version of Speech bubble
