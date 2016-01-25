@@ -13,9 +13,9 @@
   "license": "MIT",
   "repository": "archana_s/postcss-speech-bubble",
   "bugs": {
-    "url": "https://github.com/archana_s/postcss-speech-bubble/issues"
+    "url": "https://github.com/archana-s/postcss-speech-bubble/issues"
   },
-  "homepage": "https://github.com/archana_s/postcss-speech-bubble",
+  "homepage": "https://github.com/archana-s/postcss-speech-bubble",
   "dependencies": {
     "postcss": "^5.0.13"
   },
