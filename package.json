@@ -1,6 +1,6 @@
 {
   "name": "postcss-speech-bubble",
-  "version": "1.0.1",
+  "version": "1.0.11",
   "description": "PostCSS plugin creates speech bubbles with just 1-2 lines of CSS",
   "keywords": [
     "postcss",
@@ -11,7 +11,7 @@
   ],
   "author": "ArchanaS <archana.june@gmail.com>",
   "license": "MIT",
-  "repository": "archana_s/postcss-speech-bubble",
+  "repository": "archana-s/postcss-speech-bubble",
   "bugs": {
     "url": "https://github.com/archana-s/postcss-speech-bubble/issues"
   },
