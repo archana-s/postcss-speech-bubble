@@ -1,6 +1,6 @@
 {
   "name": "postcss-speech-bubble",
-  "version": "0.0.9",
+  "version": "1.0.0",
   "description": "PostCSS plugin creates speech bubbles with just 1-2 lines of CSS",
   "keywords": [
     "postcss",
