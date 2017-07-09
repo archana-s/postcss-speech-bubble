@@ -21,8 +21,8 @@ function run(t, input, output, opts = { }) {
             if (opts.shouldThrowError) {
               t.fail();
             }
-            t.same(result.css, output);
-            t.same(result.warnings().length, opts.error || 0);
+            t.deepEqual(result.css, output);
+            t.deepEqual(result.warnings().length, opts.error || 0);
         })
         .catch( () => {
           if (opts.shouldThrowError) {

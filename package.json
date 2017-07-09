@@ -17,10 +17,10 @@
   },
   "homepage": "https://github.com/archana-s/postcss-speech-bubble",
   "dependencies": {
+    "ava": "^0.20.0",
     "postcss": "^5.0.13"
   },
   "devDependencies": {
-    "ava": "^0.9.1",
     "eslint": "^1.10.3"
   },
   "scripts": {
